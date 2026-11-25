@@ -2,7 +2,19 @@
   const grid = document.querySelector('#photo-gallery');
   const lightbox = document.querySelector('#photo-lightbox');
   if (!grid || !lightbox) return;
-  const images = [...Array.from({ length: 37 }, (_, index) => `assets/gallery/${String(index + 1).padStart(2, '0')}.jpg`), ...Array.from({ length: 20 }, (_, index) => `assets/gallery-extra/${String(index + 1).padStart(2, '0')}.webp`)];
+  // Keep the gallery photo of the scaffolded facade in 36.jpg.
+  const galleryImages = Array.from({ length: 36 }, (_, index) =>
+    `assets/gallery/${String(index + 1).padStart(2, '0')}.jpg`);
+  const projectImages = Array.from({ length: 20 }, (_, index) =>
+    `assets/gallery-extra/${String(index + 1).padStart(2, '0')}.webp`)
+    .filter(src => src !== 'assets/gallery-extra/10.webp');
+  const images = [...galleryImages, ...projectImages];
+  const galleryCount = galleryImages.length;
+  function describePhoto(index) {
+    return index < galleryCount
+      ? `Работа с дагестанским камнем, фотография ${index + 1}`
+      : `Фото проекта ${index - galleryCount + 1}`;
+  }
   const image = lightbox.querySelector('img');
   const caption = lightbox.querySelector('figcaption');
   let current = 0;
@@ -13,7 +25,7 @@
     button.setAttribute('aria-label', `Открыть фотографию ${index + 1}`);
     const photo = document.createElement('img');
     photo.src = src;
-    photo.alt = index < 37 ? `Работа с дагестанским камнем, фотография ${index + 1}` : `Фото проекта ${index - 36}`;
+    photo.alt = describePhoto(index);
     photo.loading = 'lazy';
     photo.decoding = 'async';
     button.append(photo);
@@ -24,8 +36,12 @@
   function show(index) {
     current = (index + images.length) % images.length;
     image.src = images[current];
-    image.alt = current < 37 ? `Работа с дагестанским камнем, фотография ${current + 1}` : `Фото проекта ${current - 36}`;
-    caption.textContent = current < 37 ? `ФОТОГРАФИЯ ${String(current + 1).padStart(2, '0')} / 37` : `ПОРТФОЛИО · ФОТО ${String(current - 36).padStart(2, '0')} / 20`;
+    image.alt = describePhoto(current);
+    const isGalleryPhoto = current < galleryCount;
+    const number = isGalleryPhoto ? current + 1 : current - galleryCount + 1;
+    const total = isGalleryPhoto ? galleryCount : projectImages.length;
+    const label = isGalleryPhoto ? 'ФОТОГРАФИЯ' : 'ПОРТФОЛИО · ФОТО';
+    caption.textContent = `${label} ${String(number).padStart(2, '0')} / ${total}`;
   }
   function open(index) {
     show(index);
