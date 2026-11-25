@@ -3,8 +3,12 @@
   const lightbox = document.querySelector('#photo-lightbox');
   if (!grid || !lightbox) return;
   // Keep the gallery photo of the scaffolded facade in 36.jpg.
-  const galleryImages = Array.from({ length: 36 }, (_, index) =>
-    `assets/gallery/${String(index + 1).padStart(2, '0')}.jpg`);
+  const cleanPavingPhotos = new Set(['01', '06']);
+  const galleryImages = Array.from({ length: 36 }, (_, index) => {
+    const number = String(index + 1).padStart(2, '0');
+    const version = cleanPavingPhotos.has(number) ? '?v=clean-paving' : '';
+    return `assets/gallery/${number}.jpg${version}`;
+  });
   const projectImages = Array.from({ length: 20 }, (_, index) =>
     `assets/gallery-extra/${String(index + 1).padStart(2, '0')}.webp`)
     .filter(src => src !== 'assets/gallery-extra/10.webp');
@@ -41,7 +45,9 @@
     const number = isGalleryPhoto ? current + 1 : current - galleryCount + 1;
     const total = isGalleryPhoto ? galleryCount : projectImages.length;
     const label = isGalleryPhoto ? 'ФОТОГРАФИЯ' : 'ПОРТФОЛИО · ФОТО';
-    caption.textContent = `${label} ${String(number).padStart(2, '0')} / ${total}`;
+    const hideCaption = isGalleryPhoto && cleanPavingPhotos.has(String(number).padStart(2, '0'));
+    caption.hidden = hideCaption;
+    caption.textContent = hideCaption ? '' : `${label} ${String(number).padStart(2, '0')} / ${total}`;
   }
   function open(index) {
     show(index);
