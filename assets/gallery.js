@@ -16,10 +16,8 @@
     photo.alt = `Работа с дагестанским камнем, фотография ${index + 1}`;
     photo.loading = 'lazy';
     photo.decoding = 'async';
-    const number = document.createElement('span');
-    number.className = 'photo-number';
-    number.textContent = String(index + 1).padStart(2, '0');
-    button.append(photo, number);
+    button.append(photo);
+
     button.addEventListener('click', () => open(index));
     grid.append(button);
   });
