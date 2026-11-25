@@ -22,3 +22,5 @@
 
 /* Compact masonry layout keeps portraits and landscapes packed without gaps. */
 .photo-gallery{display:block;columns:4;column-gap:16px;perspective:none}.photo-card,.photo-card:nth-child(7n + 2),.photo-card:nth-child(7n + 5),.photo-card:nth-child(11n + 1){display:inline-block;vertical-align:top;width:100%;height:auto;aspect-ratio:auto;margin:0 0 16px;break-inside:avoid;grid-column:auto}.photo-card img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:initial}.photo-number{display:none!important}@media(max-width:900px){.photo-gallery{columns:3;column-gap:12px}.photo-card,.photo-card:nth-child(7n + 2),.photo-card:nth-child(7n + 5),.photo-card:nth-child(11n + 1){aspect-ratio:auto;margin-bottom:12px}}@media(max-width:600px){.photo-gallery{columns:2;column-gap:9px}.photo-card,.photo-card:nth-child(7n + 2),.photo-card:nth-child(7n + 5),.photo-card:nth-child(11n + 1){aspect-ratio:auto;margin-bottom:9px}}
+
+.yandex-credit{margin:14px 0 0;color:var(--muted);font-size:11px}.yandex-credit a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
